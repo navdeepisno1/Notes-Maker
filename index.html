@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+	<style>
+		.header
+		{
+			z-index: 9999999999999999;
+			position: fixed;
+			top: 0;
+			right: 0;
+			color: #fff;
+			background: #000;
+			width: 100%;
+			height: 50px;
+			text-align: center;
+			font-family: arial;
+			line-height: 50px;
+		}
+		.button-add
+		{
+			z-index: 9999999999999999;
+			color: #fff;
+			border: none;
+			font-size: 35px;
+			width: 400px;height: 50px; background: #000; position: fixed;right: 0;bottom: 0;
+		}
+		
+		.container
+		{
+			padding: 20px;
+			width: 500px;
+			height: 100%;
+			position: fixed;
+			top: 50px;
+			left: 0;
+			overflow: auto;
+		
+		}
+		
+		::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: red; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+
+		
+		.note
+		{
+			min-width: 100%;
+			max-width: 100%;
+			min-height: 200px;
+			max-height: 200px;
+			padding: 10px;
+			position: absolute;
+			top: 10px;
+			left: 0;
+			border: none;
+			color: #fff;
+			font-size: 20px;
+			font-family: arial;
+			width: 100%;
+			height: auto;
+			background: #000;
+		}
+		.container-note
+		{
+			margin: 10px;
+			width: 400px;
+			padding: 10px;
+			border-radius: 10px;
+			color: #fff;
+			font-size: 20px;
+			font-family: arial;
+			height: auto;
+			background: #000;
+		}
+		.edit
+		{
+			position: relative;
+			top: -10px;
+			left: 5px;
+			width: 30px;height: 30px;border:none;
+			border-radius: 50%;
+box-shadow: 0 0 5px 2px #000;			
+		}
+		.time
+		{
+			font-size: 15px;
+			margin: 10px;
+		font-weight: 1000;}
+		
+		.delete
+		{
+			position: relative;
+			top: -10px;
+			left: 10px;
+			width: 30px;height: 30px;border:none;
+			border-radius: 50%;
+			box-shadow: 0 0 5px 2px #000;
+		}
+		
+	</style>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background: #aaa;">
+	<div class ="header">
+	NOTES</div>
+	<div style="position: fixed;width: 400px;height: 100%;top: 50px;background: #fff;right: 0;border-left: thick #000 solid;box-shadow: 0 0 10px 5px #000;">
+		
+	<textarea placeholder="Write Note Here" class="note" rows="5" id="notemain">
+			
+			</textarea>
+		<button style="position: absolute;top: 220px;right: 10px;border: none; background: #fff;border-radius: 50%;box-shadow: 0 0 5px 2px #000;height: 30px; width: 30px;" onClick="clearNote()"><span class="glyphicon glyphicon-remove"></span></button>
+		<button class="button-add" onClick="addNote(this.id)">+</button>
+		<script>
+			function clearNote()
+			{
+				document.getElementById("notemain").value = "";
+			}
+			
+			var k = 0
+		function addNote(ch)
+		{
+			var msg = document.getElementById("notemain").value;
+			var div = document.createElement("div");
+			div.id = "note-"+k;
+			var time = document.createElement("div");
+			time.id = "time-"+k;
+			var d = new Date();
+			time.innerHTML = d;
+			time.className = "time";
+			var textArea = document.createElement("textarea");
+			textArea.className = "container-note";
+			textArea.value = msg;
+			textArea.disabled = "true";
+			textArea.id = "container-note-"+k;
+			var btn_edit = document.createElement("button");
+			btn_edit.title = "Edit";
+			btn_edit.className = "edit";
+			btn_edit.id = "edit-"+k;
+			btn_edit.onclick = function(){edit(this.id)}
+			var span_edit = document.createElement("span");
+			span_edit.className = "glyphicon glyphicon-pencil";
+			var btn_delete = document.createElement("button");
+			btn_delete.title = "Delete";
+			btn_delete.className = "delete";
+			btn_delete.id = "delete-"+k;
+			btn_delete.onclick = function(){del(this.id)}
+			var span_delete = document.createElement("span");
+			span_delete.className = "glyphicon glyphicon-trash";
+			
+			btn_edit.appendChild(span_edit);
+			btn_delete.appendChild(span_delete);
+			div.appendChild(time);
+			div.appendChild(textArea);
+			div.appendChild(btn_edit);
+			div.appendChild(btn_delete);
+			document.getElementById("container").appendChild(div);
+			msg = document.getElementById("notemain").value = "";
+			k+=1;
+			}
+			
+		</script>
+	</div>
+	
+	
+	
+	<div class="container" id="container">
+	
+		
+		<script>
+	function del(element_id)
+		{
+			var x = element_id;
+			var y = x.charAt(x.length-1);
+			var z = "note-"+y;
+			var rem = document.getElementById(z);
+			var con = document.getElementById("container");
+			con.removeChild(rem);
+		}
+		function edit(element_id)
+		{
+			var x = element_id;
+			var y = x.charAt(x.length-1);
+			var z = "container-note-"+y;
+			document.getElementById(z).disabled = false;
+		}
+	</script>
+
+	</div>
+	
+</body>
+</html>
